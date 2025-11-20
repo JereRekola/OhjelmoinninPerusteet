@@ -1,0 +1,1 @@
+123|Anna Virtanen|31.10.2025|10.00|2|19,95|39,90|Kyllä|Kokoustila A|0401234567|anna.virtanen@example.com
