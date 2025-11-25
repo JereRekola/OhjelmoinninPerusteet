@@ -15,39 +15,49 @@ Puhelin: 0401234567
 Sähköposti: anna.virtanen@example.com
 
 """
+from datetime import datetime
+
 def hae_varausnumero(varaus):
-    return varaus[0]
+    return int(varaus[0]) 
 
 def hae_varaaja(varaus):
-    return varaus[1]
+    return varaus[1].strip()  
 
 def hae_paiva(varaus):
-    return varaus[2]
+    paiva_str = varaus[2].strip()
+    try:
+        return datetime.strptime(paiva_str, "%d.%m.%Y").date()
+    except ValueError:
+        return datetime.strptime(paiva_str, "%Y-%m-%d").date()
 
 def hae_aloitusaika(varaus):
-    return varaus[3]
+    aika_str = varaus[3].strip()
+    if ":" in aika_str:
+        return datetime.strptime(aika_str, "%H:%M").time()
+    elif "." in aika_str:
+        return datetime.strptime(aika_str, "%H.%M").time()
+    return None
 
 def hae_tuntimaara(varaus):
-    return int(varaus[4])
+    return int(varaus[4])  
 
 def hae_tuntihinta(varaus):
-    # Muutetaan desimaalipilkku pisteeksi, jotta float toimii
-    return float(varaus[5].replace(",", "."))
+    return float(varaus[5].replace(",", "."))  
 
 def laske_kokonaishinta(varaus):
     return hae_tuntimaara(varaus) * hae_tuntihinta(varaus)
 
 def hae_maksettu(varaus):
-    return varaus[7]
+    return varaus[6].strip().lower() in ["kyllä", "yes", "true", "1"]
 
 def hae_kohde(varaus):
-    return varaus[8]
+    return varaus[7].strip()
 
 def hae_puhelin(varaus):
-    return varaus[9]
+    return varaus[8].strip()
 
 def hae_sahkoposti(varaus):
-    return varaus[10]
+    return varaus[9].strip()
 
 
 def main():
@@ -57,38 +67,33 @@ def main():
         for rivi in f:
             osat = rivi.strip().split("|")
 
-            # Varmistetaan että kenttiä on tarpeeksi
-            if len(osat) < 11:
+            if len(osat) < 10:
                 print("Virheellinen rivi, kenttiä liian vähän:", osat)
                 continue
 
             aloitusaika = hae_aloitusaika(osat)
-
-            if ":" in aloitusaika:
-                tunti, minuutti = aloitusaika.split(":")
-            elif "." in aloitusaika:
-                tunti, minuutti = aloitusaika.split(".")
-            else:
+            if aloitusaika is None:
                 continue
 
-            tunti = int(tunti)
-            minuutti = int(minuutti)
+            tunti = aloitusaika.hour
+            minuutti = aloitusaika.minute
 
             if 8 <= tunti <= 12:
                 print(f"Varausnumero: {hae_varausnumero(osat)}")
                 print(f"Varaaja: {hae_varaaja(osat)}")
-                print(f"Päivämäärä: {hae_paiva(osat)}")
-                print(f"Aloitusaika: {hae_aloitusaika(osat)}")
+                print(f"Päivämäärä: {hae_paiva(osat).strftime('%d.%m.%Y')}")
+                print(f"Aloitusaika: {aloitusaika.strftime('%H.%M')}")
                 print(f"Tuntimäärä: {hae_tuntimaara(osat)}")
                 print(f"Tuntihinta: {f'{hae_tuntihinta(osat):.2f}'.replace('.', ',')} €")
                 print(f"Kokonaishinta: {f'{laske_kokonaishinta(osat):.2f}'.replace('.', ',')} €")
-                print(f"Maksettu: {hae_maksettu(osat)}")
+                print(f"Maksettu: {'Kyllä' if hae_maksettu(osat) else 'Ei'}")
                 print(f"Kohde: {hae_kohde(osat)}")
                 print(f"Puhelin: {hae_puhelin(osat)}")
                 print(f"Sähköposti: {hae_sahkoposti(osat)}")
                 print("-" * 40)
 
 
-
 if __name__ == "__main__":
     main()
+
+
