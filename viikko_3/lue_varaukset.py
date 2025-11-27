@@ -2,6 +2,8 @@
 Ohjelma joka lukee tiedostossa olevat varaustiedot
 ja tulostaa ne konsoliin. Alla esimerkkitulostus:
 
+Päivittyykö tämä?
+
 Varausnumero: 123
 Varaaja: Anna Virtanen
 Päivämäärä: 31.10.2025
