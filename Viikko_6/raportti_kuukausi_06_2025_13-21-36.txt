@@ -1,0 +1,5 @@
+=== Kuukausiyhteenveto ===
+Kuukausi: 6
+Kokonaiskulutus: 194,02 kWh
+Kokonaistuotanto: 474,65 kWh
+Keskilämpötila: 14,33 °C

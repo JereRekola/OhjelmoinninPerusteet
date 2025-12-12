@@ -1,0 +1,5 @@
+=== Päiväkohtainen yhteenveto ===
+Aikaväli: 12.1.2025 - 25.4.2025
+Kokonaiskulutus: 3487,09 kWh
+Kokonaistuotanto: 460,06 kWh
+Keskilämpötila: 1,18 °C
