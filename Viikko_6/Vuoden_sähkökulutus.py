@@ -105,17 +105,25 @@ def luo_vuosiraportti(data: List[Dict]) -> List[str]:
 def tulosta_raportti_konsoliin(rivit: List[str]) -> None:
     print("\n".join(rivit))
 
-def kirjoita_raportti_tiedostoon(rivit: List[str], raporttityyppi: str, alku: date = None, loppu: date = None, kuukausi: int = None) -> None:
-    """Kirjoittaa raportin rivit tiedostoon automaattisesti nimettynä."""
-    aikaleima = datetime.now().strftime("%Y-%m-%d")
+def kirjoita_raportti_tiedostoon(
+    rivit: List[str],
+    raporttityyppi: str,
+    alku: date = None,
+    loppu: date = None,
+    kuukausi: int = None
+) -> None:
+    """Kirjoittaa raportin rivit tiedostoon. Kaikki raportit korvaavat vanhan tiedoston."""
     if raporttityyppi == "paiva" and alku and loppu:
-        tiedoston_nimi = f"raportti_paiva_{alku.day}-{alku.month}-{alku.year}_to_{loppu.day}-{loppu.month}-{loppu.year}_{aikaleima}.txt"
+        tiedoston_nimi = (
+            f"raportti_paiva_{alku.day}-{alku.month}-{alku.year}_to_"
+            f"{loppu.day}-{loppu.month}-{loppu.year}.txt"
+        )
     elif raporttityyppi == "kuukausi" and kuukausi:
-        tiedoston_nimi = f"raportti_kuukausi_{kuukausi:02d}_2025_{aikaleima}.txt"
+        tiedoston_nimi = f"raportti_kuukausi_{kuukausi:02d}_2025.txt"
     elif raporttityyppi == "vuosi":
-        tiedoston_nimi = f"raportti_vuosi_2025_{aikaleima}.txt"
+        tiedoston_nimi = "raportti_vuosi_2025.txt"
     else:
-        tiedoston_nimi = f"raportti_{aikaleima}.txt"
+        tiedoston_nimi = "raportti.txt"
 
     with open(tiedoston_nimi, "w", encoding="utf-8") as f:
         for rivi in rivit:
