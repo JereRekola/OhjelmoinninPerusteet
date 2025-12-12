@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Oma Nimi
+# Copyright (c) 2025 Jere Rekola
 # License: MIT
 
 import csv
